@@ -52,6 +52,13 @@ namespace DominoStatic {
 		return (a.bot + a.top > b.top + b.bot);
 	}
 
+	bool operator==(int a, Domino b)
+	{
+		return (a == b.bot || a == b.top);
+	}
+
+	
+
 	//лерндш йкюяяю днлхмн яер
 	DominoSet::DominoSet() : curSize(1)
 	{
@@ -78,14 +85,14 @@ namespace DominoStatic {
 		dominos[0] = Domino(bot, top);
 	}
 
+	void DominoSet::put(int index, Domino domino)
+	{
+		dominos[index] = domino;
+	}
+
 	bool DominoSet::contains(Domino domino) const
 	{
-		for (int i = 0; i < curSize; i++) {
-			Domino cur = dominos[i];
-			if (domino == cur)
-				return true;
-		}
-		return false;
+		return find(domino) != -1;
 	}
 
 	void DominoSet::addRandom()
@@ -112,9 +119,60 @@ namespace DominoStatic {
 		}
 	}
 
+	void DominoSet::remove(Domino domino)
+	{
+		int index = find(domino);
+		if (index == -1)
+			return;
+		curSize--;
+		dominos[index] = dominos[curSize];
+	}
+
+	void DominoSet::put(Domino domino)
+	{
+		if (curSize == MAX_SIZE)
+			throw std::runtime_error("OVERFLOW!");
+		if (contains(domino))
+			return;
+		dominos[curSize++] = domino;
+	}
+
+	DominoSet DominoSet::getSubset(int value)
+	{
+		DominoSet newSet;
+		newSet.curSize = 0;
+
+		if (value > 6 || value < 0)
+			return newSet;
+
+		for (int i = 0; i < curSize; i++) {
+			if (value == dominos[i])
+				newSet.put(dominos[i]);
+		}
+		return newSet;
+	}
+
+	DominoSet DominoSet::openByNumber(int number) const
+	{
+		if (number > curSize)
+			throw std::runtime_error("BAD VARIABLE!");
+		DominoSet set;
+		set.put(0, dominos[number]);
+		set.curSize = 0;
+		return set;
+	}
+
 	int DominoSet::getCurSize() const
 	{
 		return this->curSize;
+	}
+
+	int DominoSet::find(Domino domino) const
+	{
+		for (int i = 0; i < curSize; i++)
+			if (domino == dominos[i])
+				return i;
+		return -1;
 	}
 
 	const Domino* DominoSet::getDominos() const

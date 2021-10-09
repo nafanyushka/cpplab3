@@ -1,3 +1,10 @@
 Domino/.vs
 Domino/Debug
 Domino/Domino.sln
+Domino/Domino/static
+Domino/Domino/Debug
+Domino/Domino/x64
+Domino/Domino/Domino.vcxproj
+Domino/Domino/Domino.vcxproj.filters
+Domino/Domino/Domino.vcxproj.user
+static
