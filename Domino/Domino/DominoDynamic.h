@@ -1,6 +1,6 @@
 #include <iostream>
 
-namespace DominoStatic {
+namespace DominoDynamic {
 
 	template <class T>
 	void swap(T& a, T& b);
@@ -22,21 +22,24 @@ namespace DominoStatic {
 	private:
 		static const int MAX_SIZE = 28;
 		int curSize = 0;
-		Domino dominos[MAX_SIZE];
+		Domino* dominos;
 		void put(static int index, static Domino domino);
 	public:
+		~DominoSet();
+		DominoSet(const DominoSet& set);
 		DominoSet();
 		DominoSet(const int count);
 		DominoSet(const int bot, const int top);
 		int getCurSize() const;
 		int find(const Domino domino) const;
-		const Domino* getDominos() const;
+		Domino* getDominos() const;
 		bool contains(const Domino domino) const;
 		void addRandom();
 		void sort();
 		void remove(const Domino domino);
 		void put(static Domino domino);
-		DominoSet getSubset(const int value) const;
-		DominoSet openByNumber(const int number) const;
+		DominoSet* getSubset(const int value) const;
+		DominoSet* openByNumber(const int number) const;
+		DominoSet& operator = (const DominoSet& a);
 	};
 }

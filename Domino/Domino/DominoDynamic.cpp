@@ -1,6 +1,6 @@
-#include "DominoStatic.h"
+#include "DominoDynamic.h"
 
-namespace DominoStatic {
+namespace DominoDynamic {
 
 	template <class T>
 	void swap(T& a, T& b) {
@@ -13,9 +13,9 @@ namespace DominoStatic {
 	Domino::Domino(int bot, int top) : bot(bot), top(top) {
 		if (bot > 7 || top > 7 || top < 0 || bot < 0)
 			throw std::runtime_error("BAD VARIABLES!");
-		if(bot > top)
+		if (bot > top)
 			swap(this->bot, this->top);
-		
+
 	}
 
 	Domino::~Domino()
@@ -57,19 +57,31 @@ namespace DominoStatic {
 		return (a == b.bot || a == b.top);
 	}
 
-	
+
 
 	//лерндш йкюяяю днлхмн яер
+	DominoSet::~DominoSet() {
+		delete[] dominos;
+	}
+
+	DominoSet::DominoSet(const DominoSet& set) : curSize(set.curSize)
+	{
+		dominos = new Domino[MAX_SIZE];
+		for (int i = 0; i < curSize; i++) {
+			dominos[i] = set.getDominos()[i];
+		}
+	}
+
 	DominoSet::DominoSet() : curSize(1)
 	{
 		Domino domino;
-		domino.bot = 0;
-		domino.top = 0;
+		dominos = new Domino[MAX_SIZE];
 		dominos[0] = domino;
 	}
 
 	DominoSet::DominoSet(int count)
 	{
+		dominos = new Domino[MAX_SIZE];
 		if (count > DominoSet::MAX_SIZE || count <= 0)
 			throw std::runtime_error("BAD VARIABLE");
 		for (int i = 0; i < count; i++) {
@@ -79,6 +91,7 @@ namespace DominoStatic {
 
 	DominoSet::DominoSet(int bot, int top)
 	{
+		dominos = new Domino[MAX_SIZE];
 		if (bot == top)
 			throw std::runtime_error("BAD VARIABLES!");
 		curSize = 1;
@@ -137,29 +150,39 @@ namespace DominoStatic {
 		dominos[curSize++] = domino;
 	}
 
-	DominoSet DominoSet::getSubset(int value) const
+	DominoSet* DominoSet::getSubset(int value) const
 	{
-		DominoSet newSet;
-		newSet.curSize = 0;
+		DominoSet* newSet = new DominoSet;
+		newSet->curSize = 0;
 
 		if (value > 6 || value < 0)
 			return newSet;
 
 		for (int i = 0; i < curSize; i++) {
 			if (value == dominos[i])
-				newSet.put(dominos[i]);
+				newSet->put(dominos[i]);
 		}
 		return newSet;
 	}
 
-	DominoSet DominoSet::openByNumber(int number) const
+	DominoSet* DominoSet::openByNumber(int number) const
 	{
 		if (number > curSize)
 			throw std::runtime_error("BAD VARIABLE!");
-		DominoSet set;
-		set.put(0, dominos[number]);
-		set.curSize = 0;
+		DominoSet* set = new DominoSet;
+		set->put(0, dominos[number]);
+		set->curSize = 0;
 		return set;
+	}
+
+	DominoSet& DominoSet::operator=(const DominoSet& a)
+	{
+		delete[] this->dominos;
+		this->dominos = new Domino[MAX_SIZE];
+		curSize = a.curSize;
+		for (int i = 0; i < curSize; i++)
+			put(i, a.dominos[i]);
+		return *this;
 	}
 
 	int DominoSet::getCurSize() const
@@ -175,10 +198,10 @@ namespace DominoStatic {
 		return -1;
 	}
 
-	const Domino* DominoSet::getDominos() const
+	Domino* DominoSet::getDominos() const
 	{
 		return dominos;
 	}
 
-	
+
 }
