@@ -1,5 +1,0 @@
-﻿  DominoStatic.cpp
-D:\Programs\C++\lab3\static\staticDomino\staticDomino\DominoStatic.h(26,28): warning C4042: index: имеет недопустимый класс хранения
-D:\Programs\C++\lab3\static\staticDomino\staticDomino\DominoStatic.h(26,50): warning C4042: domino: имеет недопустимый класс хранения
-D:\Programs\C++\lab3\static\staticDomino\staticDomino\DominoStatic.h(38,32): warning C4042: domino: имеет недопустимый класс хранения
-  staticDomino.vcxproj -> D:\Programs\C++\lab3\static\staticDomino\Debug\staticDomino.lib
