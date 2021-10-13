@@ -61,7 +61,8 @@ namespace DominoDynamic {
 
 	//лерндш йкюяяю днлхмн яер
 	DominoSet::~DominoSet() {
-		delete[] dominos;
+		if(dominos != nullptr)
+			delete[] dominos;
 	}
 
 	DominoSet::DominoSet(const DominoSet& set) : curSize(set.curSize)
@@ -70,6 +71,11 @@ namespace DominoDynamic {
 		for (int i = 0; i < curSize; i++) {
 			dominos[i] = set.getDominos()[i];
 		}
+	}
+
+	DominoSet::DominoSet(DominoSet&& set) : dominos(set.dominos), curSize(set.curSize)
+	{
+		set.dominos = nullptr;
 	}
 
 	DominoSet::DominoSet() : curSize(1)
@@ -96,6 +102,13 @@ namespace DominoDynamic {
 			throw std::runtime_error("BAD VARIABLES!");
 		curSize = 1;
 		dominos[0] = Domino(bot, top);
+	}
+
+	DominoSet::DominoSet(Domino domino)
+	{
+		dominos = new Domino[MAX_SIZE];
+		dominos[0] = domino;
+		curSize = 1;
 	}
 
 	void DominoSet::put(int index, Domino domino)
@@ -160,7 +173,7 @@ namespace DominoDynamic {
 
 		for (int i = 0; i < curSize; i++) {
 			if (value == dominos[i])
-				newSet->put(dominos[i]);
+				(*newSet) + (dominos[i]);
 		}
 		return newSet;
 	}
@@ -183,6 +196,21 @@ namespace DominoDynamic {
 		for (int i = 0; i < curSize; i++)
 			put(i, a.dominos[i]);
 		return *this;
+	}
+
+	void operator++(DominoSet& set)
+	{
+		set.addRandom();
+	}
+
+	void operator+(DominoSet& set, Domino domino)
+	{
+		set.put(domino);
+	}
+
+	void operator-(DominoSet& set, Domino domino)
+	{
+		set.remove(domino);
 	}
 
 	int DominoSet::getCurSize() const

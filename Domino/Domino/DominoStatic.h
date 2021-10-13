@@ -25,9 +25,10 @@ namespace DominoStatic {
 		Domino dominos[MAX_SIZE];
 		void put(static int index, static Domino domino);
 	public:
-		DominoSet();
+		//DominoSet();
 		DominoSet(const int count);
 		DominoSet(const int bot, const int top);
+		DominoSet(Domino domino = Domino(0, 0));
 		int getCurSize() const;
 		int find(const Domino domino) const;
 		const Domino* getDominos() const;
@@ -38,5 +39,8 @@ namespace DominoStatic {
 		void put(static Domino domino);
 		DominoSet getSubset(const int value) const;
 		DominoSet openByNumber(const int number) const;
+		friend DominoSet& operator ++ (DominoSet& set);
+		friend void operator + (DominoSet& set, Domino domino);
+		friend void operator - (DominoSet& set, Domino domino);
 	};
 }

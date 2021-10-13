@@ -1,5 +1,7 @@
 #include <iostream>
 
+//TODO: Put, remove как + и -.
+
 namespace DominoDynamic {
 
 	template <class T>
@@ -27,9 +29,11 @@ namespace DominoDynamic {
 	public:
 		~DominoSet();
 		DominoSet(const DominoSet& set);
+		DominoSet(DominoSet&& set);
 		DominoSet();
 		DominoSet(const int count);
 		DominoSet(const int bot, const int top);
+		DominoSet(Domino domino);
 		int getCurSize() const;
 		int find(const Domino domino) const;
 		Domino* getDominos() const;
@@ -41,5 +45,8 @@ namespace DominoDynamic {
 		DominoSet* getSubset(const int value) const;
 		DominoSet* openByNumber(const int number) const;
 		DominoSet& operator = (const DominoSet& a);
+		friend void operator ++ (DominoSet& set);
+		friend void operator + (DominoSet& set, Domino domino);
+		friend void operator - (DominoSet& set, Domino domino);
 	};
 }

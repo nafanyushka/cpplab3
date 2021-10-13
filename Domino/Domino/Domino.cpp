@@ -53,7 +53,7 @@ void staticMenu() {
 		case 2:
 			std::cout << "Input bot and top of domino: ";
 			std::cin >> domino;
-			set.remove(domino);
+			set - domino;
 			break;
 		case 3:
 			std::cout << "Input number: ";
@@ -112,7 +112,7 @@ void dynamicMenu() {
 		case 2:
 			std::cout << "Input bot and top of domino: ";
 			std::cin >> domino;
-			set.remove(domino);
+			set - domino;
 			break;
 		case 3:
 			std::cout << "Input number: ";
@@ -152,6 +152,20 @@ void dynamicMenu() {
 
 int main()
 {
-	dynamicMenu();
+	//dynamicMenu();
+	using namespace DominoDynamic;
+	DominoSet* set = new DominoSet();
+	(*set) + Domino(5, 3);
+	++(*set);
+	++(*set);
+	++(*set);
+	(*set) - Domino(3, 5);
+	for (int i = 0; i < set->getCurSize(); i++)
+	{
+		Domino d = set->getDominos()[i];
+		std::cout << d;
+	}
+	
+	delete set;
 	_CrtDumpMemoryLeaks();
 }

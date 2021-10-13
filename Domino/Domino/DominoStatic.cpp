@@ -57,17 +57,35 @@ namespace DominoStatic {
 		return (a == b.bot || a == b.top);
 	}
 
-	
-
-	//ÌÅÒÎÄÛ ÊËÀÑÑÀ ÄÎÌÈÍÎ ÑÅÒ
-	DominoSet::DominoSet() : curSize(1)
+	DominoSet& operator++(DominoSet& set)
 	{
-		Domino domino;
-		domino.bot = 0;
-		domino.top = 0;
-		dominos[0] = domino;
+		set.addRandom();
+		return set;
 	}
 
+	void operator+(DominoSet& set, Domino domino)
+	{
+		set.put(domino);
+	}
+
+	void operator-(DominoSet& set, Domino domino)
+	{
+		set.remove(domino);
+	}
+
+	//ÌÅÒÎÄÛ ÊËÀÑÑÀ ÄÎÌÈÍÎ ÑÅÒ
+	//DominoSet::DominoSet() : curSize(1)
+	//{
+		//Domino domino;
+		//domino.bot = 0;
+		//domino.top = 0;
+		//dominos[0] = domino;
+	//}
+
+	DominoSet::DominoSet(Domino domino) : curSize(1){
+		dominos[0] = domino;
+	}
+	
 	DominoSet::DominoSet(int count)
 	{
 		if (count > DominoSet::MAX_SIZE || count <= 0)
