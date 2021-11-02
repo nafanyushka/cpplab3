@@ -75,6 +75,7 @@ namespace DominoDynamic {
 
 	DominoSet::DominoSet(DominoSet&& set) : dominos(set.dominos), curSize(set.curSize)
 	{
+		set.curSize = 0;
 		set.dominos = nullptr;
 	}
 
@@ -198,6 +199,16 @@ namespace DominoDynamic {
 		return *this;
 	}
 
+	DominoSet& DominoSet::operator=(DominoSet&& set)
+	{
+		return *(new DominoSet(set));
+	}
+
+	Domino& DominoSet::operator[](int a)
+	{
+		return dominos[a];
+	}
+
 	void operator++(DominoSet& set)
 	{
 		set.addRandom();
@@ -206,6 +217,18 @@ namespace DominoDynamic {
 	void operator+(DominoSet& set, Domino domino)
 	{
 		set.put(domino);
+	}
+
+	DominoSet* operator+(DominoSet& set0, DominoSet& set1)
+	{
+		DominoSet* set = new DominoSet();
+		Domino domino;
+		set->remove(domino);
+		for (int i = 0; i < set0.getCurSize(); i++)
+			*set + set0.getDominos()[i];
+		for (int i = 0; i < set1.getCurSize(); i++)
+			*set + set1.getDominos()[i];
+		return set;
 	}
 
 	void operator-(DominoSet& set, Domino domino)

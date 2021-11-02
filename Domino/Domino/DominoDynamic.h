@@ -1,6 +1,6 @@
 #include <iostream>
 
-//TODO: Put, remove как + и -.
+//TODO: перегрузить [] для домино сета; перемещающее присваивание; в тестах так же это проверить; добавить не void +;
 
 namespace DominoDynamic {
 
@@ -45,8 +45,11 @@ namespace DominoDynamic {
 		DominoSet* getSubset(const int value) const;
 		DominoSet* openByNumber(const int number) const;
 		DominoSet& operator = (const DominoSet& a);
+		DominoSet& operator = (DominoSet&& set);
+		Domino& operator [] (int a);
 		friend void operator ++ (DominoSet& set);
 		friend void operator + (DominoSet& set, Domino domino);
+		friend DominoSet* operator + (DominoSet& set0, DominoSet& set1);
 		friend void operator - (DominoSet& set, Domino domino);
 	};
 }
